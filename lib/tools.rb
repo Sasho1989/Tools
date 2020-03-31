@@ -2,6 +2,30 @@ require "tools/version"
 
 module Tools
 
+  class Resistor
+
+    COLORS_TO_RESISTANCE = {
+      'black' => 0,
+      'brown' => 1,
+      'red' => 2,
+      'orange' => 3,
+      'yellow' => 4,
+      'green' => 5,
+      'blue' => 6,
+      'violet' => 7,
+      'grey' => 8,
+      'white' => 9
+    }.freeze
+
+    def initialize(color1, color2, color3)
+      @colors_arr = [color1, color2, color3]
+    end
+
+    def color_duo
+      @colors_arr[0..1].map { |color| COLORS_TO_RESISTANCE[color] }.join.to_i
+    end
+  end
+
   class Allergies
     LIMIT = 256
     ALLERGENS = {
