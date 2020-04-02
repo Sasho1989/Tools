@@ -1,28 +1,98 @@
 require "tools/version"
 
 module Tools
-
   class Resistor
+    RESISTOR_VALUES = {
+      black: {
+        color: 0,
+        multiplier: 1,
+        tolerance:20
+      },
+      brown: {
+        color: 1,
+        multiplier: 10,
+        tolerance: 1
+      },
+      red: {
+        color: 2,
+        multiplier: 100,
+        tolerance: 2
+      },
+      orange: {
+        color: 3,
+        multiplier: 1_000,
+        tolerance: 0.2
+      },
+      yellow: {
+        color: 4,
+        multiplier: 10_000,
+        tolerance: 0.05
+      },
+      green: {
+        color: 5,
+        multiplier: 100_000,
+        tolerance: 0.5
+      },
+      blue: {
+        color: 6,
+        multiplier: 1_000_000,
+        tolerance: 0.25
+      },
+      violet: {
+        color: 7,
+        multiplier: 10_000_000,
+        tolerance: 0.10
+      },
+      gray: {
+        color: 8,
+        multiplier: 100_000_000,
+        tolerance: 0.05
+      },
+      white: {
+        color: 9,
+        multiplier: 1_000_000_000,
+        tolerance: 10
+      },
+      gold: {
+        multiplier: 0.10,
+        tolerance: 5
+      },
+      silver: {
+        multiplier: 0.10,
+        tolerance: 10
+      }
+    }
 
-    COLORS_TO_RESISTANCE = {
-      'black' => 0,
-      'brown' => 1,
-      'red' => 2,
-      'orange' => 3,
-      'yellow' => 4,
-      'green' => 5,
-      'blue' => 6,
-      'violet' => 7,
-      'grey' => 8,
-      'white' => 9
-    }.freeze
+    attr_reader :resistor_band1, :resistor_band2
 
-    def initialize(color1, color2, color3)
-      @colors_arr = [color1, color2, color3]
+    def initialize(resistor_bands)
+      @resistor_band1, @resistor_band2, @multiplier, @tolerance = resistor_bands
     end
 
-    def color_duo
-      @colors_arr[0..1].map { |color| COLORS_TO_RESISTANCE[color] }.join.to_i
+    #def color_duo
+     # [0..1].map { |resistor_bands| RESISTOR_VALUES[resistor_bands] }.join.to_i
+    #end
+
+    def specifications
+      "#{match_bands * multiplier} ohms +-#{tolerance}%"
+    end
+
+    private
+
+    def multiplier
+      RESISTOR_VALUES[@multiplier.to_sym][:multiplier]
+    end
+
+    def tolerance
+      @tolerance.nil? ? 20 : RESISTOR_VALUES[@tolerance.to_sym][:tolerance]
+    end
+
+    def match_bands
+      color(resistor_band1) * 10 + color(resistor_band2)
+    end
+
+    def color(color_key)
+      RESISTOR_VALUES[color_key.to_sym][:color]
     end
   end
 
@@ -63,7 +133,6 @@ module Tools
       keys.select { |elem| tmp >= elem && tmp -= elem }
     end
   end
-
 
   class Luhn
     def initialize(str)
