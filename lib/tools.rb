@@ -1,6 +1,43 @@
 require "tools/version"
 
 module Tools
+  class Antipodes
+    def initialize(antipodes)
+      @antipodes = antipodes
+    end
+
+    def sum_of_averages
+      output
+    end
+
+    private
+
+    def left_array
+      indexes.map { |i| @antipodes[i] }
+    end
+
+    def right_array
+      indexes.map { |i| reversed_array[i] }
+    end
+
+    def reversed_array
+      @antipodes.reverse
+    end
+
+    def sum
+      [left_array, right_array].transpose.map { |l, r| l + r }
+    end
+
+    def output
+      sum.map { |i| i / 2.0 }
+    end
+
+    def indexes
+      arr = @antipodes.length / 2
+      @antipodes[0...arr]
+    end
+  end
+
   class Resistor
     RESISTOR_VALUES = {
       black: {
