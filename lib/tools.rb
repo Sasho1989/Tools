@@ -19,6 +19,35 @@ module Tools
     end
   end
 
+  class Chocolate_dilemma
+    def initialize(pieces1, pieces2)
+      @pieces1 = pieces1
+      @pieces2 = pieces2
+    end
+
+    def fairness?
+      total_area1 == total_area2
+    end
+
+    private
+
+    def person1
+      @pieces1.map { |l, w| l * w }
+    end
+
+    def total_area1
+      person1.sum
+    end
+
+    def person2
+      @pieces2.map { |l, w| l * w }
+    end
+
+    def total_area2
+      person2.sum
+    end
+  end
+
   class Antipodes
     def initialize(antipodes)
       @antipodes = antipodes
