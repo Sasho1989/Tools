@@ -1,6 +1,24 @@
 require "tools/version"
 
 module Tools
+  class Odd_number
+    def initialize(arr)
+      @arr = arr
+    end
+
+    def first_odd_num
+      all_odd_num.first
+    end
+
+    def all_odd_num
+      group_num.select { |_k, v| v.size.odd? }.keys
+    end
+
+    def group_num
+      @arr.group_by { |elem| elem }
+    end
+  end
+
   class Antipodes
     def initialize(antipodes)
       @antipodes = antipodes
