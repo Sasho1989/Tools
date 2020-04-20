@@ -1,6 +1,52 @@
 require "tools/version"
 
 module Tools
+  class Pokemon
+    EFFECTIVENESS = {
+      'fire' => {
+        'fire' => 0.5,
+        'water' => 0.5,
+        'electric' => 1,
+        'grass' => 2
+      },
+      'water' => {
+        'fire' => 2,
+        'water' => 0.5,
+        'electric' => 0.5,
+        'grass' => 0.5
+      },
+      'electric' => {
+        'fire' => 1,
+        'water' => 2,
+        'electric' => 0.5,
+        'grass' => 1
+      },
+      'grass' => {
+        'fire' => 0.5,
+        'water' => 2,
+        'electric' => 1,
+        'grass' => 0.5
+      }
+    }
+
+    def initialize(my_type, opp_type, my_attack, opp_defense)
+      @my_type = my_type
+      @opp_type = opp_type
+      @my_attack = my_attack
+      @opp_defense = opp_defense
+    end
+
+    def calculate_damage
+      50 * (@my_attack / @opp_defense) * attack_effectiveness
+    end
+
+    private
+
+    def attack_effectiveness
+      EFFECTIVENESS[@my_type][@opp_type]
+    end
+  end
+
   class Odd_number
     def initialize(arr)
       @arr = arr
